@@ -9,8 +9,10 @@ import Portfolio from "./components/Portfolio";
 import Services from "./components/Services";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-export default function Home() {
+import { fetchProjects } from "./api/routes";
+export default async function Home() {
 
+	const projects = await fetchProjects();
 
 	return (
 		<>
@@ -18,7 +20,7 @@ export default function Home() {
 			<Hero />
 			<LogoAnimation />
 			<About />
-			<Portfolio />
+			<Portfolio projects = {projects} />
 			<KeyMetrics />
 			<Stack />
 			<Services />

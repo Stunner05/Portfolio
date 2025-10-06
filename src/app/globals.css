@@ -43,6 +43,51 @@
 	--radius-xl: calc(var(--radius) + 4px);
 }
 
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+
+	background: #e0e0e0
+}
+
+::-webkit-scrollbar-track:hover {
+
+	background: #555 ;
+
+}
+
+
+@theme {
+  /* Animations */
+  --animate-wiggle: wiggle 1s ease-in-out infinite;
+  --animate-fadeIn: fadeIn 0.8s ease-in-out;
+  --animate-slideIn: slideIn 0.5s ease-out;
+  --animate-zoomIn: zoomIn 0.5s ease-in;
+
+  /* Keyframes */
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes slideIn {
+    0% { transform: translateX(100%); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes zoomIn {
+    0% { transform: scale(0.95); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+}
+
 @keyframes gradient-xy {
 	0%,
 	100% {

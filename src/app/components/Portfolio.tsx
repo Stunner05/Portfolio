@@ -1,62 +1,38 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import project1 from "@/assets/ProjectImages/image1.png";
 import project3 from "@/assets/AboutImages/image3.jpg";
+import { Project } from "../../generated/prisma/index";
+import {
+	Carousel,
+	CarouselContent,
+	CarouselItem,
+	CarouselNext,
+	CarouselPrevious,
+} from "@/components/ui/carousel";
 
-const Portfolio = () => {
-	const projects = [
-		{
-			id: 1,
-			title: "Expense Tracker",
-			description:
-				"An expense tracker app to manage and keep track of your finances.",
-			year: 2024,
-			tech: ["React", "Next.js", "TailwindCSS", "MongoDB"],
-			image: project1,
-			demo: "https://moneyflowtracker.netlify.app/",
-			github: "https://github.com/Stunner05/EXPENSE-TRACKER.git",
-			status: "completed",
-		},
-		{
-			id: 2,
-			title: "Food Delivery App",
-			description:
-				"A food delivery app to order food from your favorite restaurants.",
-			year: 2025,
-			tech: ["Next.js", "Expo", "Firebase"],
-			image: project3,
-			demo: "#",
-			github: "#",
-			status: "comingSoon",
-		},
-		{
-			id: 3,
-			title: "Crypto App",
-			description: "A crypto app to buy and sell cryptocurrencies.",
-			year: 2024,
-			tech: ["React Native", "TypeScript", "TailwindCSS"],
-			image: project3,
-			demo: "#",
-			github: "#",
-			status: "comingSoon",
-		},
-		{
-			id: 4,
-			title: "E-commerce Website",
-			description: "An e-commerce website to buy and sell products online.",
-			year: 2024,
-			tech: ["Next.js", "Node.js", "MongoDB"],
-			image: project3,
-			demo: "#",
-			github: "#",
-			status: "comingSoon",
-		},
-	];
+type PortFolioProps = {
+	projects: Project[];
+};
+const Portfolio = ({ projects }: PortFolioProps) => {
+	const [selectedProject, setSelectedProject] = useState<Project | null>(
+		projects.length > 0 ? projects[0] : null
+	);
+	const [currentImage, setCurentImage] = useState(0);
 
-	const [selectedProject, setSelectedProject] = useState(projects[0]);
+	useEffect(() => {
+		if (!selectedProject?.image?.length) return;
+		const Interval = setInterval(() => {
+			setCurentImage((prev) =>
+				prev === selectedProject.image.length - 1 ? 0 : prev + 1
+			);
+		}, 3000);
+		setCurentImage(0);
+		return () => clearInterval(Interval);
+	}, [selectedProject]);
 
 	return (
 		<section id="portfolio" className="py-32 bg-black text-white">
@@ -69,43 +45,38 @@ const Portfolio = () => {
 
 					<div className="space-y-8">
 						{projects.map((project) => {
-									console.log("🚀 ~ Portfolio ~ project:", project);
-
-
+							console.log("🚀 ~ Portfolio ~ project:", project);
 							return (
 								<button
 									key={project.id}
 									onClick={() => setSelectedProject(project)} // make sure we set the whole project
 									className="w-full text-left group focus:outline-none relative cursor-pointer"
-									aria-selected={selectedProject.id === project.id}
+									aria-selected={selectedProject?.id === project.id}
 								>
 									<h3
 										className={clsx(
 											"text-2xl font-semibold transition-colors duration-300",
-											selectedProject.id === project.id
+											selectedProject?.id === project.id
 												? "text-purple-300"
 												: "group-hover:text-purple-500",
-											project.status === "comingSoon" && "opacity-50"
+											project.status === "IN_PROGRESS" && "opacity-50"
 										)}
 									>
 										{project.title}
 									</h3>
-
-									{project.status === "comingSoon" && (
+									{project.status === "IN_PROGRESS" && (
 										<span className="absolute top-0 right-0 text-xs bg-purple-800 text-white px-2 py-1 rounded">
 											Coming Soon
 										</span>
 									)}
-
 									{/* Show details if selected */}
-									{selectedProject.id === project.id && (
+									{selectedProject?.id === project.id && (
 										<div className="mt-3">
 											<div className="border-b-2 border-purple-300 my-4"></div>
 											<p className="text-purple-400">{project.description}</p>
 											<p className="text-sm text-gray-400 mt-2">
 												Year: {project.year}
 											</p>
-
 											{/* Tech Stack */}
 											<div className="flex flex-wrap gap-2 mt-3">
 												{project.tech.map((t, i) => (
@@ -117,9 +88,8 @@ const Portfolio = () => {
 													</span>
 												))}
 											</div>
-
 											{/* Links: Only show if project is completed */}
-											{project.status === "completed" && (
+											{project.status === "COMPLETED" && (
 												<div className="flex gap-6 mt-4">
 													<a
 														href={project.demo}
@@ -144,24 +114,24 @@ const Portfolio = () => {
 						})}
 					</div>
 				</div>
-
 				{/* Right: Selected Project Preview */}
 				<div className="flex items-center justify-center relative">
 					<div className="relative">
 						<Image
-							key={selectedProject.id} // ensures animation on change
-							src={selectedProject.image}
+							key={currentImage} // re-render when index changes
+							src={selectedProject?.image?.[currentImage] ?? "/placeholder.png"}
 							className={clsx(
-								"rounded-xl shadow-lg transition-transform duration-500 ease-in-out hover:scale-105 animate-fadeIn",
-								selectedProject.status === "comingSoon" &&
+								"rounded-xl shadow-lg transition-transform duration-500 ease-in-out hover:scale-105 animate-fadeIn ",
+								selectedProject &&
+									selectedProject.status === "IN_PROGRESS" &&
 									"grayscale opacity-70"
 							)}
 							width={450}
 							height={850}
-							alt={selectedProject.title}
+							alt={selectedProject?.title ?? "project title"}
 						/>
 
-						{selectedProject.status === "comingSoon" && (
+						{selectedProject?.status === "IN_PROGRESS" && (
 							<div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-xl">
 								<span className="text-xl font-bold text-purple-300">
 									🚧 Coming Soon
