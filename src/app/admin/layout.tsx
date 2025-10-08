@@ -2,7 +2,6 @@ import React from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "@/app/admin/components/Sidebar";
 import Header from "./components/Header";
-import Dashboard from "./components/dashboard";
 import { ToastContainer, } from "react-toastify";
 
 export default function Layout({ children }: { children: React.ReactNode }) {

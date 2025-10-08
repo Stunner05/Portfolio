@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { redirect } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default function AdminLoginPage() {

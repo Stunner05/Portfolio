@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -21,7 +20,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-// ✅ Schema
+
 const projectSchema = z.object({
 	title: z.string().min(3, { message: "Title must be at least 3 characters" }),
 	description: z
@@ -62,11 +61,10 @@ export default function AddProject() {
 	});
 	const onSubmit = async (data: ProjectFormValues) => {
 		try {
-			// 👇 here you can call your API (e.g. POST /api/projects)
-			console.log("✅ Project saved:", data);
+			console.log(" Project saved:", data);
 			form.reset();
 		} catch (error) {
-			console.error("❌ Failed to save project:", error);
+			console.error(" Failed to save project:", error);
 		}
 	};
 	return (
@@ -147,7 +145,6 @@ export default function AddProject() {
 											onChange={(e) => {
 												const files = e.target.files;
 												if (files) {
-													// Convert FileList → Array<File>
 													field.onChange(Array.from(files));
 												}
 											}}

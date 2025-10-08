@@ -2,6 +2,19 @@ import { getAdminProjects } from "../actions/projects/routes";
 
 export default async function AdminProjectsPage() {
 	const { projects, counts } = await getAdminProjects();
+	type Project = {
+		id: number;
+		title: string;
+		description: string;
+		year: number;
+		tech: string[];
+		image: string[];
+		demo: string;
+		github: string;
+		status: string;
+		createdAt: Date;
+		updatedAt: Date;
+	};
 
 	return (
 		<section className="p-10 bg-black text-white min-h-screen">
@@ -31,7 +44,7 @@ export default async function AdminProjectsPage() {
 					</tr>
 				</thead>
 				<tbody>
-					{projects.map((p: any) => (
+					{projects.map((p: Project) => (
 						<tr
 							key={p.id}
 							className="border-b border-gray-800 hover:bg-purple-950/20"

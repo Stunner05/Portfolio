@@ -7,10 +7,6 @@ import {
 	SidebarGroupLabel,
 	SidebarGroupContent,
 } from "@/components/ui/sidebar";
-import {  SidebarTrigger } from "@/components/ui/sidebar";
-
-
-
 import {
 	FaHome,
 	FaProjectDiagram,
@@ -19,7 +15,6 @@ import {
 	FaEnvelope,
 	FaCog,
 } from "react-icons/fa";
-
 const groups = [
 	{
 		label: "Main",
@@ -53,7 +48,6 @@ const AppSidebar = () => {
 			<div className="px-4 py-2 border-b">
 				<h1 className="text-lg font-bold">Portfolio Admin</h1>
 			</div>
-
 			<SidebarContent>
 				{groups.map((group) => (
 					<SidebarGroup key={group.label}>
@@ -76,7 +70,6 @@ const AppSidebar = () => {
 					</SidebarGroup>
 				))}
 			</SidebarContent>
-
 			<SidebarFooter>
 				<p className="text-xs text-muted-foreground px-3 py-2">
 					© 2025 OfficialPresh
