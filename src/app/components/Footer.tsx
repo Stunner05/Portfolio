@@ -58,7 +58,7 @@ const Footer = () => {
                 </p>
                 <ul className = "flex flex-wwrap ">
                     {socialLinks.map(
-                        ({href, icon, label}) => (
+                        ({href, label}) => (
                             <a
                             key={label}
                             href={href}

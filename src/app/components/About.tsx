@@ -25,18 +25,18 @@ const About = () => {
 						<code className="text-sm text-white/70 block">
 							const skills = [<br />
 							<span className="pl-4">
-								"javascript", <span className="text-blue-400">"react"</span>,
-								"nodejs",
+								javascript, <span className="text-blue-400">react</span>,
+								nodejs,
 							</span>
 							<br />
 							<span className="pl-4">
-								<span className="text-yellow-300">"typescript"</span>,
-								"PostgreSQL", "python", "html", "css",
+								<span className="text-yellow-300">typescript</span>, PostgreSQL,
+								python, html, css,
 							</span>
 							<br />
 							<span className="pl-4">
-								<span className="text-teal-400">"tailwindcss"</span>, "git",
-								"github",
+								<span className="text-teal-400">tailwindcss</span>, git,
+								"github,
 							</span>
 							<br />
 							];
@@ -97,26 +97,17 @@ const About = () => {
 								<label className="block text-sm font-medium mb-1">
 									Front-end
 								</label>
-								<Progress
-									value={90}
-									className="bg-gray-300/20 [&>div]:bg-purple-500"
-								/>
+								<Progress value={90} className="bg-gray-300/20 " />
 							</div>
 							<div>
 								<label className="block text-sm font-medium mb-1">
 									Back-end
 								</label>
-								<Progress
-									value={80}
-									className="bg-gray-300/20 [&>div]:bg-purple-500"
-								/>
+								<Progress value={80} className="bg-gray-300/20 " />
 							</div>
 							<div>
 								<label className="block text-sm font-medium mb-1">DevOps</label>
-								<Progress
-									value={70}
-									className="bg-gray-300/20 [&>div]:bg-purple-500"
-								/>
+								<Progress value={70} className="bg-gray-300/20 " />
 							</div>
 						</div>
 					</div>
