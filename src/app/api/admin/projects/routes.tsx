@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { Project } from "@/generated/prisma";
+import { Project } from "@prisma/client";
 export async function fetchProjects() {
 	try {
 		const projects = await prisma.project.findMany({
