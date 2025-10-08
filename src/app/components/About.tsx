@@ -24,14 +24,20 @@ const About = () => {
 					<div className="rounded-lg p-4 border border-white/20 bg-black/40 overflow-x-auto">
 						<code className="text-sm text-white/70 block">
 							const skills = [<br />
-							&nbsp;&nbsp;'javascript',{" "}
-							<span className="text-blue-400">'react'</span>, 'nodejs',
+							<span className="pl-4">
+								'javascript', <span className="text-blue-400">'react'</span>,
+								'nodejs',
+							</span>
 							<br />
-							&nbsp;&nbsp;<span className="text-yellow-300">'typescript'</span>,
-							'PostgreSQL', 'python', 'html', 'css',
+							<span className="pl-4">
+								<span className="text-yellow-300">'typescript'</span>,
+								'PostgreSQL', 'python', 'html', 'css',
+							</span>
 							<br />
-							&nbsp;&nbsp;<span className="text-teal-400">'tailwindcss'</span>,
-							'git', 'github',
+							<span className="pl-4">
+								<span className="text-teal-400">'tailwindcss'</span>, 'git',
+								'github',
+							</span>
 							<br />
 							];
 						</code>

@@ -1,11 +1,9 @@
 "use client";
 
-import { li } from "framer-motion/client";
-import { title } from "process";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { AiOutlineAim, AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import Link from "next/link";
 import clsx from "clsx";
 const Navbar = () => {
@@ -36,7 +34,6 @@ const Navbar = () => {
 	const closeNav = () => {
 		setNav(false);
 	};
-
 	useEffect(() => {
 		const handleUserScroll = () => {
 			if (window.scrollY > lastScroll) {
@@ -46,9 +43,7 @@ const Navbar = () => {
 			}
 			setlastScroll(window.scrollY);
 		};
-
 		window.addEventListener("scroll", handleUserScroll);
-
 		return () => window.removeEventListener("scroll", handleUserScroll);
 	}, [lastScroll]);
 	return (

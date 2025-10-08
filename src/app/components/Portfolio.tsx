@@ -3,18 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
-import project1 from "@/assets/ProjectImages/image1.png";
-import project3 from "@/assets/AboutImages/image3.jpg";
 import { Project } from "../../generated/prisma/index";
-import {
-	Carousel,
-	CarouselContent,
-	CarouselItem,
-	CarouselNext,
-	CarouselPrevious,
-} from "@/components/ui/carousel";
-import Link from "next/link";
-
 type PortFolioProps = {
 	projects: Project[];
 };
@@ -30,7 +19,7 @@ const Portfolio = ({ projects }: PortFolioProps) => {
 			setCurentImage((prev) =>
 				prev === selectedProject.image.length - 1 ? 0 : prev + 1
 			);
-		}, 3000);
+		}, 10000);
 		setCurentImage(0);
 		return () => clearInterval(Interval);
 	}, [selectedProject]);
@@ -123,7 +112,8 @@ const Portfolio = ({ projects }: PortFolioProps) => {
 							className={clsx(
 								"rounded-xl shadow-lg transition-transform duration-500 ease-in-out hover:scale-105 animate-fadeIn ",
 								selectedProject &&
-									(selectedProject.status === "IN_PROGRESS" || selectedProject.status ==="PLANNED") &&
+									(selectedProject.status === "IN_PROGRESS" ||
+										selectedProject.status === "PLANNED") &&
 									"grayscale opacity-70"
 							)}
 							width={450}
@@ -135,7 +125,8 @@ const Portfolio = ({ projects }: PortFolioProps) => {
 							alt={selectedProject?.title ?? "project title"}
 						/>
 
-						{(selectedProject?.status === "IN_PROGRESS" || selectedProject?.status === "PLANNED") && (
+						{(selectedProject?.status === "IN_PROGRESS" ||
+							selectedProject?.status === "PLANNED") && (
 							<div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-xl">
 								<span className="text-xl font-bold text-purple-300">
 									🚧 Coming Soon

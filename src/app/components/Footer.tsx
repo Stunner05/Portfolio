@@ -1,6 +1,4 @@
-import { a } from "framer-motion/client";
 import React from "react";
-
 import {
 	AiFillGithub,
 	AiOutlineTwitter,
@@ -67,7 +65,7 @@ const Footer = () => {
                             aria-label={label}
                             className="text-gry-200 flex items-cneter justify-center w-10 h-10 rounded-full hover:text-gray-400 transition-colors"
                             >
-                                
+
 
                                 </a>
                         )

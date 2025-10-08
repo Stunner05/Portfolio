@@ -11,24 +11,24 @@ export default function AdminLoginPage() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
-
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setError("");
-
 		try {
 			const res = await axios.post("/api/admin/login", { email, password });
-			console.log(res);
 			if (res.status === 200) {
 				toast.success("Logged in successfully!");
-				window.location.href = "/admin";
+				router.push("/admin"); // using router now
 			}
-		} catch (err: any) {
-			setError("Invalid credentials");
+		} catch (err: unknown) {
+			if (err instanceof Error) {
+				setError("Invalid credentials: " + err.message);
+			} else {
+				setError("Invalid credentials");
+			}
 			console.error(err);
 		}
 	};
-
 	return (
 		<div className="min-h-screen bg-black text-white flex items-center justify-center">
 			<form onSubmit={handleLogin} className="bg-gray-900 p-6 rounded-xl w-96">

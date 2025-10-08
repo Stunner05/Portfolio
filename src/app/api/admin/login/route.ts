@@ -1,13 +1,17 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import { sign } from "jsonwebtoken";
-
 import jwt from "jsonwebtoken";
+
+// Use an interface for typing incoming request body
+interface LoginRequestBody {
+	email: string;
+	password: string;
+}
 
 export async function POST(req: Request) {
 	try {
-		const { email, password } = await req.json();
+		const { email, password }: LoginRequestBody = await req.json();
 		console.log("Incoming login:", { email, password });
 
 		if (!email || !password)
@@ -15,6 +19,13 @@ export async function POST(req: Request) {
 
 		const SECRET = process.env.ADMIN_SECRET_KEY;
 		console.log("SECRET available:", !!SECRET);
+
+		if (!SECRET) {
+			return NextResponse.json(
+				{ error: "Missing secret key in environment variables" },
+				{ status: 500 }
+			);
+		}
 
 		const admin = await prisma.admin.findUnique({ where: { email } });
 		console.log("Admin found:", !!admin);
@@ -34,7 +45,7 @@ export async function POST(req: Request) {
 				{ status: 401 }
 			);
 
-		const token = jwt.sign({ id: admin.id, email: admin.email }, SECRET!, {
+		const token = jwt.sign({ id: admin.id, email: admin.email }, SECRET, {
 			expiresIn: "1d",
 		});
 		console.log("Token generated:", !!token);
@@ -49,10 +60,13 @@ export async function POST(req: Request) {
 		});
 
 		return response;
-	} catch (error: any) {
-		console.error("❌ Login failed:", error);
+	} catch (error: unknown) {
+		console.error("Login failed:", error);
+		if (error instanceof Error) {
+			return NextResponse.json({ error: error.message }, { status: 500 });
+		}
 		return NextResponse.json(
-			{ error: error.message || "Internal Server Error" },
+			{ error: "Internal Server Error" },
 			{ status: 500 }
 		);
 	}

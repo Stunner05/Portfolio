@@ -5,7 +5,6 @@ import { motion, useInView, useAnimation } from "framer-motion";
 import {
 	SiNodedotjs,
 	SiMongodb,
-	SiDocker,
 	SiFramer,
 	SiFigma,
 	SiReact,

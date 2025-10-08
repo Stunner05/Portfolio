@@ -1,14 +1,19 @@
-"use client"
+"use client";
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
+
 const PageTracker = ({ page }: { page: string }) => {
 	useEffect(() => {
-		fetch("/api/track", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ page }),
-		});
+		if (!page) return;
+		axios
+			.post("/api/track", { page })
+			.then(() => {
+				console.log(`Page "${page}" tracked successfully`);
+			})
+			.catch((err) => {
+				console.error("Tracking failed:", err);
+			});
 	}, [page]);
 	return null;
 };

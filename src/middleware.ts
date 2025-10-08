@@ -7,9 +7,6 @@ const SECRET = new TextEncoder().encode(process.env.ADMIN_SECRET_KEY); // must m
 export async function middleware(req: NextRequest) {
 	const path = req.nextUrl.pathname;
 	const token = req.cookies.get("admin_token")?.value;
-	console.log("🚀 ~ middleware ~ path:", path);
-	console.log("🚀 ~ middleware ~ token exists:", !!token);
-
 	// Paths to protect
 	const isAdminPath = path.startsWith("/admin");
 	const isLoginPath = path === "/admin/login";
@@ -21,7 +18,7 @@ export async function middleware(req: NextRequest) {
 			console.log("✅ Valid token — redirecting to /admin");
 			return NextResponse.redirect(new URL("/admin", req.url));
 		} catch {
-			console.log("❌ Invalid token — allow login page to show");
+			console.log(" Invalid token — allow login page to show");
 			return NextResponse.next();
 		}
 	}
@@ -29,7 +26,7 @@ export async function middleware(req: NextRequest) {
 	// If accessing any /admin path (except login)
 	if (isAdminPath && !isLoginPath) {
 		if (!token) {
-			console.log("❌ No token — redirect to /admin/login");
+			console.log(" No token — redirect to /admin/login");
 			return NextResponse.redirect(new URL("/admin/login", req.url));
 		}
 
@@ -38,7 +35,7 @@ export async function middleware(req: NextRequest) {
 			console.log("✅ Token valid — allow access");
 			return NextResponse.next();
 		} catch (err) {
-			console.log("❌ Invalid token — redirect to /admin/login");
+			console.log("Invalid token — redirect to /admin/login", err);
 			return NextResponse.redirect(new URL("/admin/login", req.url));
 		}
 	}
