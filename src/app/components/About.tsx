@@ -36,7 +36,7 @@ const About = () => {
 							<br />
 							<span className="pl-4">
 								<span className="text-teal-400">tailwindcss</span>, git,
-								"github,
+								github,
 							</span>
 							<br />
 							];

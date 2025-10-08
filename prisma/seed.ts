@@ -3,10 +3,7 @@ import { v2 as cloudinary } from "cloudinary";
 import path from "path";
 import { Status } from "@/generated/prisma/client";
 import { fileURLToPath } from "url";
-import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
-import { email } from "zod";
-import { create } from "domain";
 
 const __fileName = fileURLToPath(import.meta.url);
 const __dir = path.dirname(__fileName);
