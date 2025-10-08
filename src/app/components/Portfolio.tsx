@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
-import { Project } from "../../generated/prisma/index";
+import { Project } from "@prisma/client";
 type PortFolioProps = {
 	projects: Project[];
 };
