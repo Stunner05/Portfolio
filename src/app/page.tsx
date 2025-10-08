@@ -9,13 +9,15 @@ import Portfolio from "./components/Portfolio";
 import Services from "./components/Services";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import { fetchProjects } from "./api/routes";
+import { fetchProjects } from "./api/admin/projects/routes";
+import PageTracker from "./components/PageTracker";
 export default async function Home() {
 
 	const projects = await fetchProjects();
 
 	return (
 		<>
+		<PageTracker page="Home" />
 		<Navbar/>
 			<Hero />
 			<LogoAnimation />

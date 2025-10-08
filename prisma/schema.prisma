@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+   output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -27,7 +28,7 @@ model Project {
   tech        String[]
   image       String[]
   demo        String
-  github      String
+  github      String @unique
   status      Status
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -42,4 +43,21 @@ model Message {
   createdAt DateTime @default(now())
   projectId Int?
   project   Project? @relation(fields: [projectId], references: [id])
+}
+
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique      // Ensure no duplicate admin accounts
+  password  String
+  name      String?               // Optional, can store admin name if desired
+  createdAt DateTime @default(now())
+}
+
+model Visits  {
+  id Int @id @default(autoincrement())
+  ipAddress String?
+  userAgent String?
+  Page String
+  createdAt  DateTime @default(now())
 }

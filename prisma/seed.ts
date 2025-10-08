@@ -3,10 +3,13 @@ import { v2 as cloudinary } from "cloudinary";
 import path from "path";
 import { Status } from "@/generated/prisma/client";
 import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
+import { email } from "zod";
+import { create } from "domain";
 
 const __fileName = fileURLToPath(import.meta.url);
 const __dir = path.dirname(__fileName);
-
 cloudinary.config();
 type ProjectData = {
 	title: string;
@@ -19,7 +22,29 @@ type ProjectData = {
 	status: Status;
 };
 
+// async function uploadOnce(localPath: string, publicId: string) {
+// 	try {
+// 		const imageExists = await cloudinary.api
+// 			.resource(publicId)
+// 			.catch(() => null);
+// 		if (imageExists) {
+// 			console.log(`skippiing upload -${publicId}`, publicId)
+// 			return imageExists.secure_url
+// 		}
+
+// 		const result = await cloudinary.api.upload
+// 	} catch (error) {}
+// }
+
 async function main() {
+	const hashPassword = await bcrypt.hash("portfolioAdmin", 10);
+	await prisma.admin.upsert({
+		where: { email: "aipresh05@gmail.com" },
+		update: {},
+		create: { email: "aipresh05@gmail.com", password: hashPassword },
+	});
+	await prisma.project.deleteMany();
+
 	const uploads = await Promise.all([
 		cloudinary.uploader.upload(
 			path.resolve(__dirname, "../src/assets/ProjectImages/Expensetracker2.png")
@@ -28,16 +53,14 @@ async function main() {
 			path.resolve(__dirname, "../src/assets/ProjectImages/image1.png")
 		),
 	]);
-
 	const foodImages = await Promise.all([
 		cloudinary.uploader.upload(
 			path.resolve(__dirname, "../src/assets/ProjectImages/foodimage1.png")
 		),
 	]);
-
 	const cryptoImages = await Promise.all([
 		cloudinary.uploader.upload(
-			path.resolve(__dirname, "../src/assets/ProjectImages/foodimage1.png")
+			path.resolve(__dirname, "../src/assets/ProjectImages/image2.png")
 		),
 	]);
 	const EcomImages = await Promise.all([
@@ -90,9 +113,14 @@ async function main() {
 			status: Status.IN_PROGRESS,
 		},
 	];
-	await prisma.project.createMany({
-		data: projects,
-	});
+
+	for (const project of projects) {
+		await prisma.project.upsert({
+			where: { github: project.github },
+			update: project, // optional: you can set to {} if you don't want it to update
+			create: project,
+		});
+	}
 	console.log("Created seeded projects");
 }
 main()

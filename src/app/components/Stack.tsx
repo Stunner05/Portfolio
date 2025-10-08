@@ -21,9 +21,8 @@ const Stack = () => {
 		},
 		{ id: 2, name: "Node.js", icon: <SiNodedotjs />, color: "text-green-200" },
 		{ id: 3, name: "MongoDB", icon: <SiMongodb />, color: "text-green-200" },
-		{ id: 4, name: "Docker", icon: <SiDocker />, color: "text-green-200" },
-		{ id: 5, name: "Figma", icon: <SiFigma />, color: "text-green-200" },
-		{ id: 6, name: "React", icon: <SiReact />, color: "text-green-200" },
+		{ id: 4, name: "Figma", icon: <SiFigma />, color: "text-green-200" },
+		{ id: 5, name: "React", icon: <SiReact />, color: "text-green-200" },
 	];
 
 	const itemVariants = {

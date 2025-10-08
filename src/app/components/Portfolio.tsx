@@ -13,6 +13,7 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "@/components/ui/carousel";
+import Link from "next/link";
 
 type PortFolioProps = {
 	projects: Project[];
@@ -33,23 +34,19 @@ const Portfolio = ({ projects }: PortFolioProps) => {
 		setCurentImage(0);
 		return () => clearInterval(Interval);
 	}, [selectedProject]);
-
 	return (
 		<section id="portfolio" className="py-32 bg-black text-white">
 			<div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12">
-				{/* Left: Project List */}
 				<div>
 					<h2 className="text-5xl font-bold mb-10">
 						Selected <span className="text-purple-300">Projects</span>
 					</h2>
-
 					<div className="space-y-8">
 						{projects.map((project) => {
-							console.log("🚀 ~ Portfolio ~ project:", project);
 							return (
 								<button
 									key={project.id}
-									onClick={() => setSelectedProject(project)} // make sure we set the whole project
+									onClick={() => setSelectedProject(project)}
 									className="w-full text-left group focus:outline-none relative cursor-pointer"
 									aria-selected={selectedProject?.id === project.id}
 								>
@@ -59,17 +56,19 @@ const Portfolio = ({ projects }: PortFolioProps) => {
 											selectedProject?.id === project.id
 												? "text-purple-300"
 												: "group-hover:text-purple-500",
-											project.status === "IN_PROGRESS" && "opacity-50"
+											(project.status === "IN_PROGRESS" ||
+												project.status === "PLANNED") &&
+												"opacity-50"
 										)}
 									>
 										{project.title}
 									</h3>
-									{project.status === "IN_PROGRESS" && (
+									{(project.status === "IN_PROGRESS" ||
+										project.status === "PLANNED") && (
 										<span className="absolute top-0 right-0 text-xs bg-purple-800 text-white px-2 py-1 rounded">
 											Coming Soon
 										</span>
 									)}
-									{/* Show details if selected */}
 									{selectedProject?.id === project.id && (
 										<div className="mt-3">
 											<div className="border-b-2 border-purple-300 my-4"></div>
@@ -88,12 +87,12 @@ const Portfolio = ({ projects }: PortFolioProps) => {
 													</span>
 												))}
 											</div>
-											{/* Links: Only show if project is completed */}
 											{project.status === "COMPLETED" && (
 												<div className="flex gap-6 mt-4">
 													<a
 														href={project.demo}
 														target="_blank"
+														rel="noopener noreferrer"
 														className="text-purple-300 hover:underline"
 													>
 														Live Demo
@@ -101,6 +100,7 @@ const Portfolio = ({ projects }: PortFolioProps) => {
 													<a
 														href={project.github}
 														target="_blank"
+														rel="noopener noreferrer"
 														className="text-purple-300 hover:underline"
 													>
 														GitHub
@@ -123,15 +123,19 @@ const Portfolio = ({ projects }: PortFolioProps) => {
 							className={clsx(
 								"rounded-xl shadow-lg transition-transform duration-500 ease-in-out hover:scale-105 animate-fadeIn ",
 								selectedProject &&
-									selectedProject.status === "IN_PROGRESS" &&
+									(selectedProject.status === "IN_PROGRESS" || selectedProject.status ==="PLANNED") &&
 									"grayscale opacity-70"
 							)}
 							width={450}
 							height={850}
+							style={{
+								objectFit: "cover",
+								aspectRatio: "3 / 2", // You can tweak this
+							}}
 							alt={selectedProject?.title ?? "project title"}
 						/>
 
-						{selectedProject?.status === "IN_PROGRESS" && (
+						{(selectedProject?.status === "IN_PROGRESS" || selectedProject?.status === "PLANNED") && (
 							<div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-xl">
 								<span className="text-xl font-bold text-purple-300">
 									🚧 Coming Soon

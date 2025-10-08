@@ -4,7 +4,7 @@ import { Project } from "@/generated/prisma";
 export async function fetchProjects() {
 	try {
 		const projects = await prisma.project.findMany({
-			orderBy: { createdAt: "desc" },
+			orderBy: { createdAt: "asc" },
 		});
 		return projects;
 	} catch (error) {
@@ -43,5 +43,31 @@ export async function createProject(data: Project) {
 	} catch (error) {
 		console.error("Error creating project:", error);
 		throw error;
+	}
+}
+
+
+export async function GET() {
+	try {
+		const projects = await prisma.project.findMany({
+			orderBy: { createdAt: "desc" },
+		});
+
+		const counts = {
+			total: await prisma.project.count(),
+			completed: await prisma.project.count({ where: { status: "COMPLETED" } }),
+			inProgress: await prisma.project.count({
+				where: { status: "IN_PROGRESS" },
+			}),
+			planned: await prisma.project.count({ where: { status: "PLANNED" } }),
+		};
+
+		return NextResponse.json({ projects, counts });
+	} catch (error) {
+		console.error("Error fetching admin projects:", error);
+		return NextResponse.json(
+			{ error: "Failed to fetch admin projects" },
+			{ status: 500 }
+		);
 	}
 }

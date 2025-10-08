@@ -43,6 +43,11 @@ const Hero = () => {
 									textShadow: "0px 0px 8px rgb(255,255,255)",
 									boxShadow: "0px 0px 8px rgb(255,255,255)",
 								}}
+								onClick={() => {
+									document
+										.getElementById("contact")
+										?.scrollIntoView({ behavior: "smooth" });
+								}}
 								className="px-6 py-3 font-bold bg-gradient-to-r from-purple-700/80 to-purple-400 transition-colors hover:bg-purple-700 rounded-full"
 							>
 								Contact Me
@@ -51,6 +56,11 @@ const Hero = () => {
 							<motion.button
 								whileHover={{
 									scale: 1.1,
+								}}
+								onClick={() => {
+									document
+										.getElementById("portfolio")
+										?.scrollIntoView({ behavior: "smooth" });
 								}}
 								className="px-6 py-3 border-white/20  transition-colors font-medium hover:bg-gray-700 rounded-full"
 							>

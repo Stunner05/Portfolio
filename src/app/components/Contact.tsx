@@ -1,6 +1,9 @@
-'use client'
+"use client";
+
 import React from "react";
 import { motion } from "framer-motion";
+import { FaGithub, FaLinkedin, FaTwitter, FaInstagram } from "react-icons/fa";
+import ContactForm from "./ContactForm";
 
 const Contact = () => {
 	return (
@@ -33,12 +36,54 @@ const Contact = () => {
 						<div>
 							<p className="text-gray-400">Email</p>
 							<a
-								href="mailto:yourname@email.com"
-								className="text-xl text-purple-300"
+								href="mailto:Aipresh05@gmail.com"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="text-xl text-purple-300 hover:underline"
 							>
-								yourname@email.com
+								Aipresh05@gmail.com
 							</a>
 						</div>
+					</div>
+
+					{/* Social media links */}
+
+					<div className="flex space-x-6 mt-8 text-3xl">
+						{[
+							{
+								icon: <FaGithub />,
+								link: "https://github.com/Stunner05",
+								label: "GitHub",
+							},
+							{
+								icon: <FaLinkedin />,
+								link: "https://www.linkedin.com/in/dukeakintobi/",
+								label: "LinkedIn",
+							},
+							{
+								icon: <FaTwitter />,
+								link: "https://x.com/OfficialPresh_V",
+								label: "Twitter",
+							},
+							{
+								icon: <FaInstagram />,
+								link: "https://www.instagram.com/official1presh/",
+								label: "Instagram",
+							},
+						].map((social, i) => (
+							<motion.a
+								key={i}
+								href={social.link}
+								target="_blank"
+								rel="noopener noreferrer"
+								whileHover={{ scale: 1.2, color: "#a855f7" }} // purple hover
+								whileTap={{ scale: 0.95 }}
+								className="text-gray-400 transition-colors"
+								aria-label={social.label}
+							>
+								{social.icon}
+							</motion.a>
+						))}
 					</div>
 				</div>
 
@@ -50,15 +95,19 @@ const Contact = () => {
 					className="w-full h-full min-h-[400px] rounded-2xl overflow-hidden"
 				>
 					<iframe
-						src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2436.303634490769!2d4.885084576287634!3d52.36602497978744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c609d5b8c6e2bb%3A0x8e8b4e4f4e4f4e4f!2sKeizersgracht%20520%2C%201017%20EK%20Amsterdam%2C%20Netherlands!5e0!3m2!1sen!2sus!4v1701301234567!5m2!1sen!2sus"
+						src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63303.93386196986!2d3.879899872951829!3d7.387899053681509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x10398dcd7da2dc1f%3A0x51dcf2a61b6f4ed2!2sIbadan%2C%20Nigeria!5e0!3m2!1sen!2sng!4v1728309999999!5m2!1sen!2sng"
 						width="100%"
 						height="100%"
 						style={{ border: 0 }}
 						allowFullScreen
 						loading="lazy"
-					></iframe>
+					/>
 				</motion.div>
 			</motion.div>
+
+			<div>
+				<ContactForm />
+			</div>
 		</section>
 	);
 };

@@ -69,7 +69,6 @@ export default function AddProject() {
 			console.error("❌ Failed to save project:", error);
 		}
 	};
-
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
