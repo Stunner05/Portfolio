@@ -1,4 +1,6 @@
+import { id } from "zod/v4/locales";
 import { getAdminProjects } from "../actions/projects/routes";
+import Link from "next/link";
 
 export default async function AdminProjectsPage() {
 	const { projects, counts } = await getAdminProjects();
@@ -15,6 +17,8 @@ export default async function AdminProjectsPage() {
 		createdAt: Date;
 		updatedAt: Date;
 	};
+
+	console.log(`Clicked project ID:`);
 
 	return (
 		<section className="p-10 bg-black text-white min-h-screen">
@@ -53,6 +57,9 @@ export default async function AdminProjectsPage() {
 							<td>{p.status}</td>
 							<td>{p.year}</td>
 							<td>{Array.isArray(p.tech) ? p.tech.join(", ") : p.tech}</td>
+							<td className="text-purple-400 hover:underline">
+								<Link href={`/admin/projects/${p.id}/edit`}>Edit</Link>
+							</td>
 						</tr>
 					))}
 				</tbody>

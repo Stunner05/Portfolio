@@ -2,31 +2,38 @@ import React from "react";
 import EditForm from "../../../components/EditForm";
 import axios from "axios";
 import { id } from "zod/v4/locales";
-import { API_URL } from "@/lib/config";
-import { getApiUrl } from "@/lib/config";
+import { getProjectById } from "@/app/api/admin/projects/routes";
 
-export default async function ProjectDetailsPage({
-	params,
-}: {
+type Props = {
 	params: { id: string };
-}) {
+};
+
+export default async function ProjectDetailsPage({ params }: Props) {
+	console.log("this is the edit page");
+
+	const { id } = await params;
 	try {
-  const apiUrl = getApiUrl(`api/projects/${params.id}`);
-		const res = await axios.get(apiUrl);
-    if (res.status)
-    {
-const projectData =res.data
+		const projectId = Number(id);
 
+		const projectData = await getProjectById(projectId);
+		console.log("🚀 ~ ProjectDetailsPage ~ projectData:", projectData);
+		const formattedProject = {
+			...projectData!,
+			image: projectData!.image.map((url: string) => ({ url })),
+		};
 
-	return (
-		<>
-			<EditForm project={projectData} />
-		</>
-	);
-    }
+		if (!projectData) {
+			return <p className="text-red-500">Project not found.</p>;
+		}
+
+		return (
+			<>
+				<EditForm project={formattedProject}  />
+			</>
+		);
 	} catch (error) {
 		console.log("unable to fetch project data", error);
 	}
 
-	return <h1>Unable to fetch Data</h1>
+	return <h1>Unable to fetch Data</h1>;
 }

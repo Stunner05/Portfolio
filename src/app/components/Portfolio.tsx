@@ -32,6 +32,7 @@ const Portfolio = ({ projects }: PortFolioProps) => {
 					</h2>
 					<div className="space-y-8">
 						{projects.map((project) => {
+							console.log("🚀 ~ Portfolio ~ project:", project)
 							return (
 								<button
 									key={project.id}

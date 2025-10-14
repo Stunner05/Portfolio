@@ -32,9 +32,6 @@ export default async function Dashboard() {
 					<CardHeader>
 						<CardTitle className="text-gray-300">Blog Posts</CardTitle>
 					</CardHeader>
-					{/* <CardContent>
-						<p className="text-2xl font-bold text-gray-300">{blogCount}</p>
-					</CardContent> */}
 				</Card>
 
 				<Card className="bg-black">
@@ -60,21 +57,8 @@ export default async function Dashboard() {
 						</ul>
 					</CardContent>
 				</Card>
-				{/* <Card className="bg-black">
-					<CardHeader>
-						<CardTitle>Recent Blog Posts</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<ul className="space-y-2">
-							{recentBlogs.map((b) => (
-								<li key={b.id}>📖 {b.title}</li>
-							))}
-						</ul>
-					</CardContent>
-				</Card> */}
 			</div>
 
-			{/* Messages + Quick Actions */}
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 				<Card className="bg-black">
 					<CardHeader>

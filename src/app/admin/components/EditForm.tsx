@@ -1,22 +1,22 @@
+"use client";
 import React from "react";
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { title } from "process";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Project } from "@/lib/types";
+import ImageUploader from "./imageUploader";
+import { useParams } from "next/navigation";
 
 interface EditFormProps {
-	project: Project;
+	project: Project & { id?: string };
 }
-
 const EditForm = ({ project }: EditFormProps) => {
 	const {
 		register,
 		control,
 		handleSubmit,
 		watch,
+		setValue,
 		formState: { errors, isSubmitting },
 	} = useForm<Project>({
 		defaultValues: {
@@ -27,13 +27,12 @@ const EditForm = ({ project }: EditFormProps) => {
 			image: project.image?.map((img) =>
 				typeof img === "string" ? { url: img } : { url: (img as any).url ?? "" }
 			) || [{ url: "" }],
-			// image: project.image?.map((url) => ({ url  || [{ url: "" }])),
+
 			github: project.github ?? "",
 			status: project.status ?? undefined,
 			year: project.year != null ? Number(project.year) : undefined,
-		},
+	},
 	});
-
 	const {
 		fields: imageFields,
 		append: addImage,
@@ -42,22 +41,22 @@ const EditForm = ({ project }: EditFormProps) => {
 		control,
 		name: "image" as const,
 	});
-
 	const onSubmit: SubmitHandler<Project> = async (data) => {
 		try {
-			const res = await axios.put("api/admin/project/route");
+			if (!project.id) {
+				toast.error("project id is missing");
+				return;
+			}
+			const res = await axios.put(`/api/admin/update/${project.id}`, data);
 			if (res.status) {
 				toast.success("project updated successfully");
 			}
+			console.log("🚀 ~ onSubmit ~ res:", res);
 		} catch (error) {
 			toast.error("something went wrong");
 			console.log("something went wrong", error);
 		}
 	};
-
-	// const addImage = (val: string) => append(val);
-	// const removeImage = (index: number) => remove(index);
-
 	return (
 		<>
 			<div>
@@ -82,7 +81,6 @@ const EditForm = ({ project }: EditFormProps) => {
 							className="w-full bg-gray-800 p-2 rounded text-white"
 						/>
 					</div>
-
 					<div>
 						//{" "}
 						<label className="block mb-1 text-sm text-gray-300">
@@ -127,7 +125,6 @@ const EditForm = ({ project }: EditFormProps) => {
 							/>
 						</div>
 					</div>
-
 					<div>
 						<label className="block mb-1 text-sm text-gray-300">Status</label>
 						<select
@@ -142,37 +139,21 @@ const EditForm = ({ project }: EditFormProps) => {
 
 					<div>
 						<label className="block mb-2 text-sm text-gray-300">Images</label>
-						{imageFields.map((field, index) => (
-							<div key={field.id} className="flex gap-2 items-center">
-								<input
-									{...register(`image.${index}` as const)}
-									className="flex-1 bg-gray-800 p-2 rounded text-white"
-									placeholder="Image URL"
-								/>
-								<button
-									type="button"
-									onClick={() => deleteImage(index)}
-									className="text-red-400 hover:text-red-600"
-								>
-									Remove
-								</button>
-							</div>
-						))}
+
+						<ImageUploader
+							onUploadComplete={(urls) =>
+								setValue("image", urls.map((u) => ({ url: u })) as any)
+							}
+							initialImages={project.image?.map((img) =>
+								typeof img === "string" ? img : img.url
+							)}
+						/>
 					</div>
-
-					<div>
-						<button
-							type="button"
-							onClick={() => addImage({url: ""})}
-							className="mt-2 text-sm text-purple-400 hover:underline"
-						>
-							+ Add Image
-						</button>
-
+					<div className="space-x-6">
 						<button
 							type="submit"
 							disabled={isSubmitting}
-							className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded text-white"
+							className="px-6 py-3 font-bold bg-gradient-to-r from-purple-700/80 to-purple-400 transition-colors hover:bg-purple-700 rounded-full cursor-pointer"
 						>
 							{isSubmitting ? "Updating..." : "Update Project"}
 						</button>
@@ -182,5 +163,4 @@ const EditForm = ({ project }: EditFormProps) => {
 		</>
 	);
 };
-
 export default EditForm;
