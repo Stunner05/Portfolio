@@ -84,21 +84,25 @@ export default async function Dashboard() {
 						<Dialog>
 							<DialogTrigger asChild>
 								<Button>
-									<Plus className="h-4 w-4 mr-2" /> Add Project
+									<Plus className="h-4 w-4 mr-2 cursor-pointer" /> Add Project
 								</Button>
 							</DialogTrigger>
 							<DialogContent className="sm:max-w-[600px]">
 								<DialogHeader>
-									<DialogTitle>Add a New Project</DialogTitle>
+									<DialogTitle className="">
+										<button className="cursor-pointer">
+											Add a New Project
+										</button>
+									</DialogTitle>
 								</DialogHeader>
 								<AddProject />
 							</DialogContent>
 						</Dialog>
 						<Button>
-							<PenLine className="h-4 w-4 mr-2" /> New Blog
+							<PenLine className="h-4 w-4 mr-2 cursor-pointer" /> New Blog
 						</Button>
 						<Button>
-							<User className="h-4 w-4 mr-2" /> Edit Profile
+							<User className="h-4 w-4 mr-2 cursor-pointer" /> Edit Profile
 						</Button>
 					</CardContent>
 				</Card>

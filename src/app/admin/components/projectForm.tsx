@@ -20,6 +20,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
 
 const projectSchema = z.object({
 	title: z.string().min(3, { message: "Title must be at least 3 characters" }),
@@ -62,6 +63,7 @@ export default function AddProject() {
 	const onSubmit = async (data: ProjectFormValues) => {
 		try {
 			console.log(" Project saved:", data);
+			// const res = axios.post("", data)
 			form.reset();
 		} catch (error) {
 			console.error(" Failed to save project:", error);
