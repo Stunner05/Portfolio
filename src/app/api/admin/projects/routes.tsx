@@ -1,8 +1,10 @@
 	import prisma from "@/lib/prisma";
 	import {  NextResponse } from "next/server";
 	import { Project } from "@prisma/client";
+	import { unstable_noStore as noStore } from "next/cache";
 
 	export async function fetchProjects() {
+		noStore();
 		try {
 			const projects = await prisma.project.findMany({
 				orderBy: { createdAt: "asc" },

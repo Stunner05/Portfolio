@@ -10,6 +10,9 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import { fetchProjects } from "./api/admin/projects/routes";
 import PageTracker from "./components/PageTracker";
+
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
 	const projects = await fetchProjects();
 
