@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import ImageUploader from "./imageUploader"; // Add this import
 
 const projectSchema = z.object({
 	title: z.string().min(3, { message: "Title must be at least 3 characters" }),
@@ -38,18 +39,8 @@ const projectSchema = z.object({
 		}),
 	tech: z.string().min(2, { message: "At least one technology is required" }),
 	image: z
-		.array(z.instanceof(File))
-		.min(1, { message: "Please upload at least one image" })
-		.refine(
-			(files) =>
-				files.every((file) =>
-					["image/png", "image/jpeg", "image/webp"].includes(file.type)
-				),
-			{ message: "Only PNG, JPG, or WebP images are allowed" }
-		)
-		.refine((files) => files.every((file) => file.size <= 1_000_000), {
-			message: "Each image must be less than 1MB",
-		}),
+		.array(z.string().url())
+		.min(1, { message: "Please upload at least one image" }), // Updated to array of URLs
 	demo: z.string().url({ message: "Demo must be a valid URL" }),
 	github: z.string().url({ message: "GitHub must be a valid URL" }),
 	status: z.enum(["PLANNED", "IN_PROGRESS", "COMPLETED"], {
@@ -68,7 +59,7 @@ export default function AddProject() {
 			description: "",
 			year: "",
 			tech: "",
-			image: [],
+			image: [], // Empty array
 			demo: "",
 			github: "",
 			status: "PLANNED",
@@ -85,9 +76,7 @@ export default function AddProject() {
 			formData.append("demo", data.demo);
 			formData.append("github", data.github);
 			formData.append("status", data.status);
-			data.image.forEach((file) => {
-				formData.append("image", file);
-			});
+			formData.append("image", JSON.stringify(data.image)); // Send as JSON string
 			console.log(" Project saved:", data);
 			const res = await axios.post("/api/admin/createProject", formData, {
 				headers: {
@@ -179,23 +168,22 @@ export default function AddProject() {
 						<FormField
 							control={form.control}
 							name="image"
-							render={({ field }) => (
+							render={({ fieldState }) => (
 								<FormItem>
-									<FormLabel>Image URL</FormLabel>
+									<FormLabel>Image Upload</FormLabel>
 									<FormControl>
-										<Input
-											type="file"
-											accept="image/*"
-											multiple
-											onChange={(e) => {
-												const files = e.target.files;
-												if (files) {
-													field.onChange(Array.from(files));
-												}
+										<ImageUploader
+											onUploadComplete={(urls) => {
+												form.setValue("image", urls); // Set URLs in form
 											}}
+											initialImages={[]} // Empty for new projects
 										/>
 									</FormControl>
-									<FormMessage />
+									{fieldState.error && (
+										<p className="text-red-500 text-sm mt-1">
+											{fieldState.error.message}
+										</p>
+									)}
 								</FormItem>
 							)}
 						/>
@@ -248,7 +236,7 @@ export default function AddProject() {
 						<Button
 							type="submit"
 							className="w-full cursor-pointer"
-							disabled={loading}
+							disabled={loading || form.watch("image").length === 0} // Disable if no images uploaded
 						>
 							{loading ? "Saving..." : "Save Project"}
 						</Button>
