@@ -32,7 +32,7 @@ const Portfolio = ({ projects }: PortFolioProps) => {
 					</h2>
 					<div className="space-y-8">
 						{projects.map((project) => {
-							console.log("🚀 ~ Portfolio ~ project:", project)
+							console.log("🚀 ~ Portfolio ~ project:", project);
 							return (
 								<button
 									key={project.id}
@@ -107,24 +107,32 @@ const Portfolio = ({ projects }: PortFolioProps) => {
 				{/* Right: Selected Project Preview */}
 				<div className="flex items-center justify-center relative">
 					<div className="relative">
-						<Image
-							key={currentImage} // re-render when index changes
-							src={selectedProject?.image?.[currentImage] ?? "/placeholder.png"}
-							className={clsx(
-								"rounded-xl shadow-lg transition-transform duration-500 ease-in-out hover:scale-105 animate-fadeIn ",
-								selectedProject &&
-									(selectedProject.status === "IN_PROGRESS" ||
-										selectedProject.status === "PLANNED") &&
-									"grayscale opacity-70"
-							)}
-							width={450}
-							height={850}
-							style={{
-								objectFit: "cover",
-								aspectRatio: "3 / 2", // You can tweak this
-							}}
-							alt={selectedProject?.title ?? "project title"}
-						/>
+						<a
+							href={selectedProject?.demo}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<Image
+								key={currentImage} // re-render when index changes
+								src={
+									selectedProject?.image?.[currentImage] ?? "/placeholder.png"
+								}
+								className={clsx(
+									"rounded-xl shadow-lg transition-transform duration-500 ease-in-out hover:scale-105 animate-fadeIn ",
+									selectedProject &&
+										(selectedProject.status === "IN_PROGRESS" ||
+											selectedProject.status === "PLANNED") &&
+										"grayscale opacity-70"
+								)}
+								width={450}
+								height={850}
+								style={{
+									objectFit: "cover",
+									aspectRatio: "3 / 2", // You can tweak this
+								}}
+								alt={selectedProject?.title ?? "project title"}
+							/>
+						</a>
 
 						{(selectedProject?.status === "IN_PROGRESS" ||
 							selectedProject?.status === "PLANNED") && (

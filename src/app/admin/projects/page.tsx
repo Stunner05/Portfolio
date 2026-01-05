@@ -1,6 +1,6 @@
-import { id } from "zod/v4/locales";
 import { getAdminProjects } from "../actions/projects/routes";
 import Link from "next/link";
+import { ProjectActions } from "@/app/admin/actions/projects/actions";
 
 export default async function AdminProjectsPage() {
 	const { projects, counts } = await getAdminProjects();
@@ -17,9 +17,7 @@ export default async function AdminProjectsPage() {
 		createdAt: Date;
 		updatedAt: Date;
 	};
-
 	console.log(`Clicked project ID:`);
-
 	return (
 		<section className="p-10 bg-black text-white min-h-screen">
 			<h1 className="text-3xl font-bold mb-8">Projects</h1>
@@ -36,7 +34,6 @@ export default async function AdminProjectsPage() {
 					</div>
 				))}
 			</div>
-
 			{/* Projects table */}
 			<table className="w-full text-left border-collapse">
 				<thead>
@@ -59,6 +56,9 @@ export default async function AdminProjectsPage() {
 							<td>{Array.isArray(p.tech) ? p.tech.join(", ") : p.tech}</td>
 							<td className="text-purple-400 hover:underline">
 								<Link href={`/admin/projects/${p.id}/edit`}>Edit</Link>
+							</td>
+							<td className="text-purple-400 hover:underline">
+								<ProjectActions projectTitle={p.title} projectId={p.id.toString()} />
 							</td>
 						</tr>
 					))}

@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import {
 	Form,
 	FormControl,
@@ -21,6 +22,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const projectSchema = z.object({
 	title: z.string().min(3, { message: "Title must be at least 3 characters" }),
@@ -34,11 +37,19 @@ const projectSchema = z.object({
 			message: "Enter a valid year (>= 2000)",
 		}),
 	tech: z.string().min(2, { message: "At least one technology is required" }),
-	image: z.array(
-		z.file().max(1_00_000).mime(["image/png", "image/jpeg", "image/webp"], {
-			message: "Only PNG, JPG, or WebP images allowed",
-		})
-	),
+	image: z
+		.array(z.instanceof(File))
+		.min(1, { message: "Please upload at least one image" })
+		.refine(
+			(files) =>
+				files.every((file) =>
+					["image/png", "image/jpeg", "image/webp"].includes(file.type)
+				),
+			{ message: "Only PNG, JPG, or WebP images are allowed" }
+		)
+		.refine((files) => files.every((file) => file.size <= 1_000_000), {
+			message: "Each image must be less than 1MB",
+		}),
 	demo: z.string().url({ message: "Demo must be a valid URL" }),
 	github: z.string().url({ message: "GitHub must be a valid URL" }),
 	status: z.enum(["PLANNED", "IN_PROGRESS", "COMPLETED"], {
@@ -47,7 +58,10 @@ const projectSchema = z.object({
 });
 type ProjectFormValues = z.infer<typeof projectSchema>;
 export default function AddProject() {
+	const router = useRouter();
 	const form = useForm<ProjectFormValues>({
+		mode: "onChange",
+		reValidateMode: "onBlur",
 		resolver: zodResolver(projectSchema),
 		defaultValues: {
 			title: "",
@@ -62,17 +76,46 @@ export default function AddProject() {
 	});
 	const onSubmit = async (data: ProjectFormValues) => {
 		try {
+			setLoading(true);
+			const formData = new FormData();
+			formData.append("title", data.title);
+			formData.append("description", data.description);
+			formData.append("year", data.year);
+			formData.append("tech", data.tech);
+			formData.append("demo", data.demo);
+			formData.append("github", data.github);
+			formData.append("status", data.status);
+			data.image.forEach((file) => {
+				formData.append("image", file);
+			});
 			console.log(" Project saved:", data);
-			// const res = axios.post("", data)
+			const res = await axios.post("/api/admin/createProject", formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
+			if (res.status === 200) {
+				console.log(" Project saved successfully");
+			}
+			toast.success(" Project created successfully");
+			setOpen(false);
 			form.reset();
+			router.refresh();
 		} catch (error) {
+			toast.error(" Failed to create project");
 			console.error(" Failed to save project:", error);
+		} finally {
+			setLoading(false);
 		}
 	};
+	const [loading, setLoading] = useState(false);
+	const [open, setOpen] = useState(false);
 	return (
-		<Dialog>
+		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button>Add Project</Button>
+				<Button className="cursor-pointer" onClick={() => setOpen(true)}>
+					Add Project
+				</Button>
 			</DialogTrigger>
 			<DialogContent className="max-w-lg">
 				<DialogHeader>
@@ -202,8 +245,12 @@ export default function AddProject() {
 								</FormItem>
 							)}
 						/>
-						<Button type="submit" className="w-full">
-							Save Project
+						<Button
+							type="submit"
+							className="w-full cursor-pointer"
+							disabled={loading}
+						>
+							{loading ? "Saving..." : "Save Project"}
 						</Button>
 					</form>
 				</Form>

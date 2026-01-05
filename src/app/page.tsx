@@ -11,17 +11,16 @@ import Footer from "./components/Footer";
 import { fetchProjects } from "./api/admin/projects/routes";
 import PageTracker from "./components/PageTracker";
 export default async function Home() {
-
 	const projects = await fetchProjects();
 
 	return (
 		<>
-		<PageTracker page="Home" />
-		<Navbar/>
+			<PageTracker page="Home" />
+			<Navbar />
 			<Hero />
 			<LogoAnimation />
 			<About />
-			<Portfolio projects = {projects} />
+			<Portfolio projects={projects} />
 			<KeyMetrics />
 			<Stack />
 			<Services />

@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { DM_Sans } from "next/font/google";
 import { ToastContainer } from "react-toastify";
+import "../lib/keepAlive"
 
 const dmSans = DM_Sans({
 	variable: "--font-dm-sans",
 	subsets: ["latin"],
 	weight: ["400", "500", "700"],
+	display: "swap",
+	preload: true,
 });
 export const metadata: Metadata = {
 	title: "Presh Akintobi Portfolio",

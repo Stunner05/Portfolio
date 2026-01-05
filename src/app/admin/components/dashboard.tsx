@@ -83,7 +83,7 @@ export default async function Dashboard() {
 					<CardContent className="flex gap-2">
 						<Dialog>
 							<DialogTrigger asChild>
-								<Button>
+								<Button className="cursor-pointer">
 									<Plus className="h-4 w-4 mr-2 cursor-pointer" /> Add Project
 								</Button>
 							</DialogTrigger>

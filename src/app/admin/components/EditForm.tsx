@@ -5,12 +5,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Project } from "@/lib/types";
 import ImageUploader from "./imageUploader";
-import { useParams } from "next/navigation";
-
+import { useRouter } from "next/navigation";
 interface EditFormProps {
 	project: Project & { id?: string };
 }
 const EditForm = ({ project }: EditFormProps) => {
+	const router = useRouter();
+
 	const {
 		register,
 		control,
@@ -31,7 +32,7 @@ const EditForm = ({ project }: EditFormProps) => {
 			github: project.github ?? "",
 			status: project.status ?? undefined,
 			year: project.year != null ? Number(project.year) : undefined,
-	},
+		},
 	});
 	const {
 		fields: imageFields,
@@ -51,7 +52,7 @@ const EditForm = ({ project }: EditFormProps) => {
 			if (res.status) {
 				toast.success("project updated successfully");
 			}
-			console.log("🚀 ~ onSubmit ~ res:", res);
+			router.refresh();
 		} catch (error) {
 			toast.error("something went wrong");
 			console.log("something went wrong", error);
@@ -62,13 +63,13 @@ const EditForm = ({ project }: EditFormProps) => {
 			<div>
 				<form
 					onSubmit={handleSubmit(onSubmit)}
-					className="space-y-6 bg-gray-900 p-6 rounded-lg"
+					className="space-y-6 bg-black p-6 rounded-lg"
 				>
 					<div>
 						<label className="block mb-1 text-sm text-gray-300">Title</label>
 						<input
 							{...register("title")}
-							className="w-full bg-gray-800 p-2 rounded text-white"
+							className="w-full   bg-transparent border-white/20 p-2 rounded text-white"
 							placeholder="Enter project title"
 						/>
 					</div>
@@ -78,7 +79,7 @@ const EditForm = ({ project }: EditFormProps) => {
 						<input
 							type="number"
 							{...register("year", { valueAsNumber: true })}
-							className="w-full bg-gray-800 p-2 rounded text-white"
+							className="w-full   bg-transparent  border-white/20 p-2 rounded text-white"
 						/>
 					</div>
 					<div>
@@ -88,7 +89,7 @@ const EditForm = ({ project }: EditFormProps) => {
 						</label>
 						<textarea
 							{...register("description")}
-							className="w-full bg-gray-800 p-2 rounded text-white"
+							className="  bg-transparent  border-white/20 w-full  p-2 rounded text-white"
 							rows={3}
 							placeholder="Enter project description"
 						/>
@@ -100,7 +101,7 @@ const EditForm = ({ project }: EditFormProps) => {
 						</label>
 						<input
 							{...register("tech")}
-							className="w-full bg-gray-800 p-2 rounded text-white"
+							className="w-full bg-transparent  border-white/20 p-2 rounded text-white"
 							placeholder="e.g. React, Next.js, Prisma"
 						/>
 					</div>
@@ -112,7 +113,7 @@ const EditForm = ({ project }: EditFormProps) => {
 							</label>
 							<input
 								{...register("demo")}
-								className="w-full bg-gray-800 p-2 rounded text-white"
+								className="w-full bg-transparent  border-white/20 p-2 rounded text-white"
 							/>
 						</div>
 						<div>
@@ -121,7 +122,7 @@ const EditForm = ({ project }: EditFormProps) => {
 							</label>
 							<input
 								{...register("github")}
-								className="w-full bg-gray-800 p-2 rounded text-white"
+								className="w-full bg-transparent border-white/20 p-2 rounded text-white"
 							/>
 						</div>
 					</div>
@@ -129,7 +130,7 @@ const EditForm = ({ project }: EditFormProps) => {
 						<label className="block mb-1 text-sm text-gray-300">Status</label>
 						<select
 							{...register("status")}
-							className="w-full bg-gray-800 p-2 rounded text-white"
+							className="w-full  bg-transparen border-white/20 p-2 rounded text-white"
 						>
 							<option value="PLANNED">Planned</option>
 							<option value="IN_PROGRESS">In Progress</option>

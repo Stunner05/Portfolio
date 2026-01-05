@@ -1,10 +1,10 @@
 "use server";
 import prisma from "@/lib/prisma";
+import { Project } from '../../../../generated/prisma/index';
 
 export async function getDashboardData() {
 	try {
 		const projectsCount = await prisma.project.count();
-		// const blogCount = await prisma.blog.count();
 		const messagesCount = await prisma.message.count();
 
 		const recentProjects = await prisma.project.findMany({
@@ -57,3 +57,4 @@ export async function getAdminProjects() {
 		throw new Error("Failed to fetch admin projects");
 	}
 }
+

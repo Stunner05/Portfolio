@@ -1,24 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { auth } from "@/lib/auth";
-import { User } from "lucide-react";
 import { Prisma, Status } from "@prisma/client";
 import cloudinary from "@/lib/cloudinary";
 
 export async function POST(req: NextRequest) {
 	try {
-		// const session = await getServerSess
-		const session = await auth();
-		if (!session || !session.user) {
-			return NextResponse.json(
-				{
-					message: "user is not logged in",
-				},
-				{
-					status: 401,
-				}
-			);
-		}
 		const formData = await req.formData();
 		const title = formData.get("title") as string;
 		const description = formData.get("description") as string;
@@ -52,6 +38,7 @@ export async function POST(req: NextRequest) {
 					.end(buffer);
 			});
 			uploadImages.push((result as any).secure_url);
+
 		}
 		const project = await prisma.project.create({
 			data: {
