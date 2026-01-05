@@ -3,11 +3,12 @@ import prisma from "@/lib/prisma";
 
 export async function PUT(
 	req: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
 	console.log("this update route was hit");
 	try {
-		const projectId = Number(params.id);
+		const resolvedParams = await params;
+		const projectId = Number(resolvedParams.id);
 		if (!projectId)
 			return NextResponse.json({ error: "id is required", status: 500 });
 		const payload = await req.json();

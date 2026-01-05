@@ -1,16 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import cloudinary from "@/lib/cloudinary";
-import { Message } from "../../../../../generated/prisma/index";
-import { success } from "zod";
 
 export async function DELETE(
 	req: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
 	try {
 		console.log("DELETE request received for deleting project");
-		const id = params.id;
+		const { id } = await params;
 		console.log("🚀 ~ DELETE ~ id:", id);
 		if (!id) {
 			return NextResponse.json(
