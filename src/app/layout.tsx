@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { DM_Sans } from "next/font/google";
 import { ToastContainer } from "react-toastify";
-import "../lib/keepAlive"
+import "../lib/keepAlive";
+import mainIcon from "@/assets/global-network.png";
 
 const dmSans = DM_Sans({
 	variable: "--font-dm-sans",
@@ -11,9 +12,13 @@ const dmSans = DM_Sans({
 	display: "swap",
 	preload: true,
 });
+
 export const metadata: Metadata = {
-	title: "Presh Akintobi Portfolio",
-	description: "Portfolio website of Presh Akintobi",
+	title: "Akintobis Portfolio",
+	description: "Portfolio website of OfficialPresh",
+	icons: {
+		icon: mainIcon.src, // This sets your favicon
+	},
 };
 export default function RootLayout({
 	children,

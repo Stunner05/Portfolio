@@ -35,8 +35,7 @@ const About = () => {
 							</span>
 							<br />
 							<span className="pl-4">
-								<span className="text-teal-400">tailwindcss</span>, git,
-								github,
+								<span className="text-teal-400">tailwindcss</span>, git, github,
 							</span>
 							<br />
 							];
@@ -97,17 +96,27 @@ const About = () => {
 								<label className="block text-sm font-medium mb-1">
 									Front-end
 								</label>
-								<Progress value={90} className="bg-gray-300/20 " />
+								<Progress
+									value={90}
+									className="bg-gray-300/20  progress-bar-white  "
+								/>
 							</div>
 							<div>
-								<label className="block text-sm font-medium mb-1">
+								<label className="block text-sm font-medium mb-1 ">
 									Back-end
 								</label>
-								<Progress value={80} className="bg-gray-300/20 " />
+								<Progress
+									value={80}
+									className="bg-gray-300/20 progress-bar-white   "
+								/>
 							</div>
 							<div>
 								<label className="block text-sm font-medium mb-1">DevOps</label>
-								<Progress value={70} className="bg-gray-300/20 " />
+								<Progress
+									value={85}
+									className="bg-gray-300/20 progress-bar-white  "
+									 indicatorClassName="bg-white"
+								/>
 							</div>
 						</div>
 					</div>

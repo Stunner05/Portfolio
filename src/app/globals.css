@@ -48,44 +48,61 @@
 }
 
 ::-webkit-scrollbar-track {
-
-	background: #e0e0e0
+	background: #e0e0e0;
 }
 
 ::-webkit-scrollbar-track:hover {
-
-	background: #555 ;
-
+	background: #555;
 }
 
-
 @theme {
-  /* Animations */
-  --animate-wiggle: wiggle 1s ease-in-out infinite;
-  --animate-fadeIn: fadeIn 0.8s ease-in-out;
-  --animate-slideIn: slideIn 0.5s ease-out;
-  --animate-zoomIn: zoomIn 0.5s ease-in;
+	/* Animations */
+	--animate-wiggle: wiggle 1s ease-in-out infinite;
+	--animate-fadeIn: fadeIn 0.8s ease-in-out;
+	--animate-slideIn: slideIn 0.5s ease-out;
+	--animate-zoomIn: zoomIn 0.5s ease-in;
 
-  /* Keyframes */
-  @keyframes wiggle {
-    0%, 100% { transform: rotate(-3deg); }
-    50% { transform: rotate(3deg); }
-  }
+	/* Keyframes */
+	@keyframes wiggle {
+		0%,
+		100% {
+			transform: rotate(-3deg);
+		}
+		50% {
+			transform: rotate(3deg);
+		}
+	}
 
-  @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-  }
+	@keyframes fadeIn {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
 
-  @keyframes slideIn {
-    0% { transform: translateX(100%); opacity: 0; }
-    100% { transform: translateX(0); opacity: 1; }
-  }
+	@keyframes slideIn {
+		0% {
+			transform: translateX(100%);
+			opacity: 0;
+		}
+		100% {
+			transform: translateX(0);
+			opacity: 1;
+		}
+	}
 
-  @keyframes zoomIn {
-    0% { transform: scale(0.95); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-  }
+	@keyframes zoomIn {
+		0% {
+			transform: scale(0.95);
+			opacity: 0;
+		}
+		100% {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
 }
 
 @keyframes gradient-xy {
@@ -94,11 +111,23 @@
 		/* background-size: 200% 200%; */
 		background-position: 0% 50%;
 	}
-
 }
 
+.progress-bar-white::-webkit-progress-value {
+	background-color: white;
+}
+
+.progress-bar-white::-moz-progress-bar {
+	background-color: white;
+}
+
+.progress-bar-white::-ms-fill {
+	background-color: white;
+}
+
+
 .button {
-cursor: pointer;
+	cursor: pointer;
 	padding: 10px;
 	/* background-color: var(--color-primary); */
 	border-radius: 10px;
@@ -111,8 +140,8 @@ html {
 }
 
 .animate-gradient-xy {
-  animation: graiet-xy 10s ease infinite;
-  background-size: 200% 200%;
+	animation: graiet-xy 10s ease infinite;
+	background-size: 200% 200%;
 }
 
 :root {
@@ -184,13 +213,11 @@ html {
 	--sidebar-ring: oklch(0.553 0.013 58.071);
 }
 
-
-
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+	* {
+		@apply border-border outline-ring/50;
 	}
-  body {
-    @apply bg-black text-foreground;
+	body {
+		@apply bg-black text-foreground;
 	}
 }
