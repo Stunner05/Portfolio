@@ -115,7 +115,6 @@ const About = () => {
 								<Progress
 									value={85}
 									className="bg-gray-300/20 progress-bar-white  "
-									 indicatorClassName="bg-white"
 								/>
 							</div>
 						</div>
