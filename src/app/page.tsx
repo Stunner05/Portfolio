@@ -10,7 +10,7 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import { fetchProjects } from "./api/admin/projects/routes";
 import PageTracker from "./components/PageTracker";
-import { Project } from "../generated/prisma/index";
+import { Project } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
