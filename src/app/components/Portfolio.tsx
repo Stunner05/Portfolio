@@ -23,6 +23,19 @@ const Portfolio = ({ projects }: PortFolioProps) => {
 		setCurentImage(0);
 		return () => clearInterval(Interval);
 	}, [selectedProject]);
+
+	if (!projects || projects.length === 0) {
+		return (
+			<section id="portfolio" className="py-32 bg-black text-white">
+				<div className="max-w-7xl mx-auto px-4 text-center">
+					<h2 className="text-5xl font-bold mb-10">
+						Selected <span className="text-purple-300">Projects</span>
+					</h2>
+					<p className="text-gray-400">No projects available at the moment.</p>
+				</div>
+			</section>
+		);
+	}
 	return (
 		<section id="portfolio" className="py-32 bg-black text-white">
 			<div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12">
